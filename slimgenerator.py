@@ -1,0 +1,108 @@
+import sys
+import getopt
+import entity
+import mysql.connector
+from mysql.connector import Error
+
+version = "0.0.1A"
+hostName = ""
+databaseName = ""
+userName = ""
+password = ""
+destDirectory = ""
+tableList = []
+
+
+# Funzione per la connessione al DB
+def Mysql_Connect(hn, un, pw, dn): 
+    connection = None
+    try:
+        connection = mysql.connector.connect(
+            host=hn, 
+            user=un, 
+            password=pw,
+            database=dn 
+        )
+        if connection.is_connected():
+            db_info = connection.get_server_info()
+            print("Connected to MySQL Server version: ", db_info)
+    except Error as e:
+        print("Unable to connect to the DB: ", e)
+
+    return connection
+
+# Funzione per la disconnessione dal DB
+def Mysql_Disconnect(connection):
+    connection.close()
+    print("The MySQL Connection has been closed");
+    connection = None
+    return connection
+
+# Funzione per ottenere la lista delle tabelle
+def List_Tables(connection, destDirectory):
+    global tableList
+    cursor = connection.cursor()
+    cursor.execute("SHOW TABLES;")
+    tl = cursor.fetchall()
+    cursor.close()
+    for (e,) in tl:
+        tableList.append(entity.Entita(connection,e, destDirectory))
+
+# Funzione per il recupero delle colonne di una tabella
+def List_Columns(connection, tableList):
+    for t in tableList:
+        print ("Table: ", t)
+        cursor = connection.cursor()
+        cursor.execute("SHOW COLUMNS FROM " + t)
+        result = cursor.fetchall()
+        print ("Fields:")
+        for (fname,type,nullable,key,defaultValue,extra) in result:
+            print("Field: ", fname)
+        print('')
+
+
+# Funzione dedicata alla spiegazione della linea di comando
+def Show_Info():
+    print("Slim Generator: Scaffolding software for Slim Framework projects and MySQL database, version: ", version)
+    print("Command format:");
+    print("python slimgenerator.py -h hostname -d databasename -u username -p password -o destination_path")
+
+# Funzione per l'input dei dati
+def Input_args():
+    global hostName
+    global databaseName
+    global userName
+    global password
+    global destDirectory
+
+    if len(sys.argv) == 1:
+        Show_Info()
+        return 0
+    else:
+        #Elabora la linea di comando
+        opts,args = getopt.getopt(sys.argv[1:],"h:d:u:p:o:")
+        for opt,arg in opts:
+            if opt=='-h':
+                hostName = arg
+            elif opt=="-d":
+                databaseName = arg
+            elif opt=="-u":
+                userName = arg
+            elif opt=="-p":
+                password = arg
+            elif opt=="-o":
+                destDirectory = arg
+        return 1
+
+
+# Corpo principale del programma
+if Input_args()==1:
+    connection = Mysql_Connect(hostName,userName,password,databaseName)
+    List_Tables(connection, destDirectory)
+    for e in tableList:
+        e.generate()
+    Mysql_Disconnect(connection)
+
+
+
+
