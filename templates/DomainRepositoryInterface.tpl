@@ -10,9 +10,9 @@ interface ##TABLENAME##Repository
 {
     public function getAll(): array;
 
-    public function getSubset(string $filtro, string $sortBy, int $descending, int $startRow, int $fetchCount): array;
+    public function get(##KEYFIELDS##): ##TABLENAME##;
 
-    public function findByKey(##KEYFIELDS##): ##TABLENAME##;
+    public function getSubset(string $filtro, string $sortBy, int $descending, int $startRow, int $fetchCount): array;
 
     public function insert(##TABLENAME## $data): ##TABLENAME##;
 

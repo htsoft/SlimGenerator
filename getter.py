@@ -6,7 +6,7 @@ class Getter:
         self.fname = fname
         self.type = type
         self.extra = extra
-        self.getterFileName = "GetterSetter.tpl"
+        self.getterFileName = "ModelGetterSetter.tpl"
 
     def generate(self):
         outputText = ""

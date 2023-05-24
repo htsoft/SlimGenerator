@@ -1,11 +1,9 @@
 import os
 
-class Property:
-    def __init__(self, fname, type, extra) -> None:
-        self.fname = fname
-        self.type = type
-        self.extra = extra
-        self.getterFileName = "ModelProperty.tpl"
+class ModelConstructor:
+    def __init__(self, fields) -> None:
+        self.fields = fields
+        self.getterFileName = "ModelConstructor.tpl"
 
     def generate(self):
         outputText = ""
@@ -30,4 +28,3 @@ class Property:
                 outputText = outputText + line.replace("##FIELDNAME##",self.fname,-1).replace("##TYPE##",type,-1)
 
         return outputText
-

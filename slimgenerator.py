@@ -1,10 +1,10 @@
 import sys
 import getopt
-import entity
+import scaffolder
 import mysql.connector
 from mysql.connector import Error
 
-version = "0.0.1A"
+version = "0.1.0a"
 hostName = ""
 databaseName = ""
 userName = ""
@@ -46,20 +46,7 @@ def List_Tables(connection, destDirectory):
     tl = cursor.fetchall()
     cursor.close()
     for (e,) in tl:
-        tableList.append(entity.Entita(connection,e, destDirectory))
-
-# Funzione per il recupero delle colonne di una tabella
-def List_Columns(connection, tableList):
-    for t in tableList:
-        print ("Table: ", t)
-        cursor = connection.cursor()
-        cursor.execute("SHOW COLUMNS FROM " + t)
-        result = cursor.fetchall()
-        print ("Fields:")
-        for (fname,type,nullable,key,defaultValue,extra) in result:
-            print("Field: ", fname)
-        print('')
-
+        tableList.append(scaffolder.Scaffolder(connection, e, destDirectory))
 
 # Funzione dedicata alla spiegazione della linea di comando
 def Show_Info():

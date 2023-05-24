@@ -22,7 +22,9 @@ class Models:
         getters = ""
         jsonfields = ""
         for (fname,type,nullable,key,defaultValue,extra) in self.fields:
-            line = "private "
+            properties = properties + property.Property(fname,type,extra).generate()
+            getters = getters + getter.Getter(fname,type,extra).generate()
+
             if "auto_increment" in extra:
                 constructorParameters = constructorParameters + "?int $" + fname + ", "
             else:
@@ -35,8 +37,6 @@ class Models:
                 elif "time" in type:
                     constructorParameters = constructorParameters + "string $" + fname + ", "
             constructorAssignments = constructorAssignments + "$this->" + fname + " = $" + fname + ";\r\t\t"
-            properties = properties + property.Property(fname,type,extra).generate()
-            getters = getters + getter.Getter(fname,type,extra).generate()
             jsonfields = jsonfields + "'" + fname + "' => $this->" + fname + ",\r\t\t\t"  
         constructorParameters = constructorParameters[:-2]
 

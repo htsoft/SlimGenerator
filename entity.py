@@ -11,10 +11,6 @@ class Entita:
 
     def generate(self):
         print("Table name: ", self.table)
-        print("Fields:")
-        for field in self.fields:
-            print(field)
-
         ## Genera i files del model
         model = models.Models(self.table, self.fields, self.destination_root)
         model.Generate()
