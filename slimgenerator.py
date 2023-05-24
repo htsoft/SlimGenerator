@@ -4,7 +4,7 @@ import scaffolder
 import mysql.connector
 from mysql.connector import Error
 
-version = "0.1.0a"
+version = "0.9.0a"
 hostName = ""
 databaseName = ""
 userName = ""
