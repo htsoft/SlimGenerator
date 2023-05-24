@@ -1,5 +1,7 @@
 import os
 
+import getter
+import property
 class Models:
     def __init__(self, table, fields, destination_root) -> None:
         self.table = table
@@ -14,7 +16,7 @@ class Models:
             os.makedirs(path)
         
         # Procede quindi alla creazione di tutti i files relativi al model nella cartella specificata
-        fields = ""
+        properties = ""
         constructorParameters = ""
         constructorAssignments = ""
         getters = ""
@@ -22,24 +24,19 @@ class Models:
         for (fname,type,nullable,key,defaultValue,extra) in self.fields:
             line = "private "
             if "auto_increment" in extra:
-                line = line + "?int $" + fname + ";\n\r"
                 constructorParameters = constructorParameters + "?int $" + fname + ", "
             else:
                 if "char" in type:
-                    line = line + "string $" + fname + ";\n\r"
                     constructorParameters = constructorParameters + "string $" + fname + ", "
                 elif "int" in type:
-                    line = line + "int $" + fname + ";\n\r"
                     constructorParameters = constructorParameters + "int $" + fname + ", "
                 elif "date" in type:
-                    line = line + "string $" + fname + ";\n\r"
                     constructorParameters = constructorParameters + "string $" + fname + ", "
                 elif "time" in type:
-                    line = line + "string $" + fname + ";\n\r"
                     constructorParameters = constructorParameters + "string $" + fname + ", "
-            fields = fields + line + "\t"
             constructorAssignments = constructorAssignments + "$this->" + fname + " = $" + fname + ";\r\t\t"
-            getters = getters + self.Generate_Getter(fname, type, extra)
+            properties = properties + property.Property(fname,type,extra).generate()
+            getters = getters + getter.Getter(fname,type,extra).generate()
             jsonfields = jsonfields + "'" + fname + "' => $this->" + fname + ",\r\t\t\t"  
         constructorParameters = constructorParameters[:-2]
 
@@ -49,7 +46,7 @@ class Models:
         with open(tplFile,"r") as f:
             lines = f.readlines()
             for line in lines:
-                outputText = outputText + line.replace("##TABLENAME##",self.table.capitalize(),-1).replace("##FIELDS##",fields,-1).replace("##CONSTRUCTORPARAMETERS##",constructorParameters,-1).replace("##CONSTRUCTORASSIGNMENTS##",constructorAssignments,-1).replace("##GETTERS##",getters,-1).replace("##JSONFIELDS##",jsonfields,-1)
+                outputText = outputText + line.replace("##TABLENAME##",self.table.capitalize(),-1).replace("##PROPERTIES##",properties,-1).replace("##CONSTRUCTORPARAMETERS##",constructorParameters,-1).replace("##CONSTRUCTORASSIGNMENTS##",constructorAssignments,-1).replace("##GETTERS##",getters,-1).replace("##JSONFIELDS##",jsonfields,-1)
         outputPath = os.path.join(path,self.table.capitalize()) + ".php"
         with open(outputPath,"w") as f:
             f.write(outputText)
@@ -90,23 +87,3 @@ class Models:
         outputPath = os.path.join(path,self.table.capitalize()) + "NotFoundException.php"
         with open(outputPath,"w") as f:
             f.write(outputText)
-
-    def Generate_Getter(self, fname, type, extra):
-        tipo = ""
-        if "auto_increment" in extra:
-            tipo = tipo + "?"
-        if "char" in type:
-            tipo = tipo + "string"
-        elif "int" in type:
-            tipo = tipo + "int"
-        elif "date" in type:
-            tipo = tipo + "string"
-        elif "time" in type:
-            tipo = tipo + "string"
-        
-        getter = "public function get" + fname.capitalize() + "(): " + tipo + "\r"
-        getter = getter + "\t{\r"
-        getter = getter + "\t\t" + "return $this->" + fname + ";\r" 
-        getter = getter + "\t}\r\n\t"
-        return getter;
-

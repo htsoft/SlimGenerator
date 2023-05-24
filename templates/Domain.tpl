@@ -8,7 +8,7 @@ use JsonSerializable;
 
 class ##TABLENAME## implements JsonSerializable
 {
-    ##FIELDS##
+    ##PROPERTIES##
 
     public function __construct(##CONSTRUCTORPARAMETERS##)
     {
