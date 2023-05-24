@@ -4,6 +4,10 @@ SlimGenerator is a simple Python 3 script which makes the scaffolding of a MySQL
 
 Release 0.9.0a Notes
 - Added Action classes creation
+- Added CountAction classes creation
+- Added ListAction classes creation
+- Added ListAllAction classes creation
+- Added GetAction classes creation
 
 Release 0.1.0a Notes  
 - Creation of DB Repository class in Infrastructure\Persistence section

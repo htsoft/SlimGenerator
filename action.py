@@ -1,5 +1,10 @@
 import os
 
+import listaction
+import countaction
+import listallaction
+import getaction
+
 class GenericAction:
     def __init__(self, connection, table, destination_root) -> None:
         self.connection = connection
@@ -9,6 +14,10 @@ class GenericAction:
         cursor.execute("SHOW COLUMNS FROM " + table)
         self.fields = cursor.fetchall()
         self.templateName = "GenericAction.tpl"
+        self.listAction = listaction.ListAction(table,destination_root)
+        self.listAllAction = listallaction.ListAllAction(table,destination_root)
+        self.countAction = countaction.CountAction(table,destination_root)
+        self.getAction = getaction.GetAction(table, self.fields, destination_root)
 
     def generate(self):
 
@@ -30,4 +39,9 @@ class GenericAction:
         outputPath = os.path.join(path, self.table.capitalize()) + "Action.php"
         with open(outputPath,"w") as f:
             f.write(outputText)
+
+        self.listAction.generate()
+        self.countAction.generate()
+        self.listAllAction.generate()
+        self.getAction.generate()
 
