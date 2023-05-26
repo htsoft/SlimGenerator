@@ -4,6 +4,9 @@ import listaction
 import countaction
 import listallaction
 import getaction
+import insertaction
+import updateaction
+import deleteaction
 
 class GenericAction:
     def __init__(self, connection, table, destination_root) -> None:
@@ -18,6 +21,9 @@ class GenericAction:
         self.listAllAction = listallaction.ListAllAction(table,destination_root)
         self.countAction = countaction.CountAction(table,destination_root)
         self.getAction = getaction.GetAction(table, self.fields, destination_root)
+        self.insertAction = insertaction.InsertAction(table, self.fields, destination_root)
+        self.updateAction = updateaction.UpdateAction(table, self.fields, destination_root)
+        self.deleteAction = deleteaction.DeleteAction(table, self.fields, destination_root)
 
     def generate(self):
 
@@ -44,4 +50,7 @@ class GenericAction:
         self.countAction.generate()
         self.listAllAction.generate()
         self.getAction.generate()
+        self.insertAction.generate()
+        self.updateAction.generate()
+        self.deleteAction.generate()
 

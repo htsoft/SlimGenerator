@@ -1,11 +1,11 @@
 import os
 
-class GetAction:
+class DeleteAction:
     def __init__(self, table, fields, destination_root) -> None:
         self.table = table
         self.destination_root = destination_root
         self.fields = fields
-        self.templateName = "GetAction.tpl"
+        self.templateName = "DeleteAction.tpl"
 
     def generate(self):
 
@@ -26,8 +26,8 @@ class GetAction:
             elif "double" in type:
                 fieldType = "(double)"
             if "PRI" in key:
-                keysArgs = keysArgs + fieldType + "$" + fname + " = $this->resolveArg('" + fname + "');\r\t\t"
-                keysParams = keysParams + "$" + fname + ","
+                keysArgs = keysArgs + "$" + fname + " = $this->resolveArg('" + fname + "');\r\t\t"
+                keysParams = keysParams + fieldType + "$" + fname + ","
                 listKeysValues = listKeysValues + " . \" " + fname + ": \" . $" + fname 
         keysParams = keysParams[:-1]
 
@@ -43,6 +43,6 @@ class GetAction:
                     .replace("##KEYSARGS##",keysArgs,-1) \
                     .replace("##KEYSPARAMS##",keysParams,-1) \
                     .replace("##LISTKEYSVALUES##",listKeysValues,-1)
-        outputPath = os.path.join(path, self.table.capitalize()) + "GetAction.php"
+        outputPath = os.path.join(path, self.table.capitalize()) + "DeleteAction.php"
         with open(outputPath,"w") as f:
             f.write(outputText)
