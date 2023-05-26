@@ -51,7 +51,7 @@ class Repository:
                 elif "float" in type:
                     keyParams = keyParams + "float $" + fname + ","
                 elif "double" in type:
-                    keyParams = keyParams + "double $" + fname + ","
+                    keyParams = keyParams + "float $" + fname + ","
                 else:
                     keyParams = keyParams + "string $" + fname + ","
 

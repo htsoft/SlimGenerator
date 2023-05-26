@@ -16,12 +16,12 @@ class Property:
         if "auto_increment" in self.extra:
             type = "?int"
         else:
-            if "int" in type:
+            if "int" in self.type:
                 type = "int"
-            elif "float" in type:
+            elif "float" in self.type:
                 type = "float"
-            elif "double" in type:
-                type = "double"
+            elif "double" in self.type:
+                type = "float"
             else:
                 type = "string"
         with open(tplFile,"r") as f:

@@ -32,6 +32,10 @@ class Models:
                     constructorParameters = constructorParameters + "string $" + fname + ", "
                 elif "int" in type:
                     constructorParameters = constructorParameters + "int $" + fname + ", "
+                elif "float" in type:
+                    constructorParameters = constructorParameters + "float $" + fname + ", "
+                elif "double" in type:
+                    constructorParameters = constructorParameters + "float $" + fname + ", "
                 elif "date" in type:
                     constructorParameters = constructorParameters + "string $" + fname + ", "
                 elif "time" in type:

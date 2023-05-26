@@ -19,7 +19,7 @@ class ModelConstructor:
             elif "float" in type:
                 type = "float"
             elif "double" in type:
-                type = "double"
+                type = "float"
             else:
                 type = "string"
         with open(tplFile,"r") as f:

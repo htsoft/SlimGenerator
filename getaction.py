@@ -24,7 +24,7 @@ class GetAction:
             elif "float" in type:
                 fieldType = "(float)"
             elif "double" in type:
-                fieldType = "(double)"
+                fieldType = "(float)"
             if "PRI" in key:
                 keysArgs = keysArgs + fieldType + "$" + fname + " = $this->resolveArg('" + fname + "');\r\t\t"
                 keysParams = keysParams + "$" + fname + ","

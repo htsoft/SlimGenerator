@@ -22,7 +22,7 @@ class InsertAction:
             elif "float" in type:
                 fieldType = "(float)"
             elif "double" in type:
-                fieldType = "(double)"
+                fieldType = "(float)"
             
             fields = fields + fieldType + "$data->" + fname + ", ";
         fields = fields[:-2]
