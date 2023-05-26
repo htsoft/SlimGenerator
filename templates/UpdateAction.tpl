@@ -7,7 +7,7 @@ namespace App\Application\Actions\##TABLENAMECAP##;
 use App\Domain\##TABLENAMECAP##\##TABLENAMECAP##;
 use Psr\Http\Message\ResponseInterface as Response;
 
-class ##TABLENAMECAP##InsertAction extends ##TABLENAMECAP##Action
+class ##TABLENAMECAP##UpdateAction extends ##TABLENAMECAP##Action
 {
     /**
      * {@inheritdoc}
@@ -18,7 +18,7 @@ class ##TABLENAMECAP##InsertAction extends ##TABLENAMECAP##Action
         $data = $this->getFormData();
         $this->logger->info("Update for entity ##TABLENAMECAP## ");
         $obj = new ##TABLENAMECAP##(##FIELDS##);
-        $dato = $this->##TABLENAME##Repository->insert($obj);
+        $dato = $this->##TABLENAME##Repository->update($obj);
         return $this->respondWithData($dato);
     }
 }
