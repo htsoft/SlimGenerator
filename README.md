@@ -1,6 +1,6 @@
 # SlimGenerator ver. 0.9.5a
 
-SlimGenerator is a simple Python 3 script which makes the scaffolding of a MySQL/MariaDV database and create all the php scripts for the LCRUD of a Slim Framework 4 project.  
+SlimGenerator is a simple Python 3 script which makes the scaffolding of a MySQL/MariaDD database and create all the php scripts for the LCRUD of a Slim Framework 4 project.  
 
 Release 0.9.5a Notes
 - Added Action classes insert
