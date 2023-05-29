@@ -94,7 +94,7 @@ class Repository:
                     .replace("##KEYFIELDS##",keyFields,-1) \
                     .replace("##KEYUPDATEPARAMS##",keyUpdateParams,-1) \
                     .replace("##KEYPARAMS##",keyParams,-1) 
-        outputPath = os.path.join(path,"DB" + self.table.capitalize()) + ".php"
+        outputPath = os.path.join(path,"DB" + self.table.capitalize()) + "Repository.php"
         with open(outputPath,"w") as f:
             f.write(outputText)
 
